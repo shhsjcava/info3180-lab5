@@ -51,7 +51,7 @@ def login():
                 flash('You are in!', 'success')
                 return redirect(url_for("secure_page"))  # they should be redirected to a secure-page route instead
             else:
-                flash('user not found')
+                flash('user not found', 'error')
                 return redirect(url_for("login"))
     return render_template("login.html", form=form)
 
@@ -66,6 +66,12 @@ def secure_page():
 def load_user(id):
     return UserProfile.query.get(int(id))
 
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    flash('you out!', 'success')
+    return redirect(url_for('home'))
 ###
 # The functions below should be applicable to all Flask apps.
 ###
